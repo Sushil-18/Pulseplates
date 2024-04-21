@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { fetchMeals } from "../http";
+import Mealitem from "./Mealitem";
 
 const Meals = () => {
   const [mealsData, setMealsData] = useState([]);
@@ -9,7 +10,7 @@ const Meals = () => {
     async function fetchData() {
       try {
         const meals = await fetchMeals();
-        setMealsData([...meals]);
+        setMealsData(meals);
       } catch (error) {
         setError({ message: "Failed to fetch the meal data" });
       }
@@ -17,12 +18,17 @@ const Meals = () => {
     fetchData();
   }, []);
   return (
-    <div>
-      {console.log(mealsData)}
-      <ul>
-        {mealsData.map((meal) => {
-          <li key={meal.id}>{meal.name}</li>;
-        })}
+    <div className="px-64 py-12">
+      <ul className="grid grid-cols-3 gap-4 p-4">
+        {mealsData.map((meal) => (
+          <Mealitem
+            key={meal.id}
+            img={meal.image}
+            name={meal.name}
+            price={meal.price}
+            desc={meal.description}
+          />
+        ))}
       </ul>
     </div>
   );
