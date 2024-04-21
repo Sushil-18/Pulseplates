@@ -2,8 +2,8 @@ import React from "react";
 
 const Mealitem = ({ img, name, price, desc }) => {
   return (
-    <li className="border-0 rounded-xl text-center bg-[#1d1a16] overflow-hidden">
-      <article>
+    <li className=" border-0 rounded-xl text-center bg-[#1d1a16] overflow-hidden">
+      <article className="h-full flex flex-col justify-between">
         {console.log(name)}
         <img
           className="h-[50%] w-auto mb-4"
@@ -19,9 +19,11 @@ const Mealitem = ({ img, name, price, desc }) => {
           </div>
           <p className=" font-sm">{desc}</p>
         </div>
-        <button className="px-6 py-1 mb-6 border-0 bg-yellow-600 rounded-md">
-          Add to Cart
-        </button>
+        <div>
+          <button className="px-6 py-1 my-6 border-0 bg-yellow-600 rounded-md">
+            Add to Cart
+          </button>
+        </div>
       </article>
     </li>
   );
