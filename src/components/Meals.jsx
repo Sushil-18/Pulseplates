@@ -21,13 +21,7 @@ const Meals = () => {
     <div className="px-64 py-12">
       <ul className="grid grid-cols-3 gap-4 p-4">
         {mealsData.map((meal) => (
-          <Mealitem
-            key={meal.id}
-            img={meal.image}
-            name={meal.name}
-            price={meal.price}
-            desc={meal.description}
-          />
+          <Mealitem key={meal.id} meal={meal} />
         ))}
       </ul>
     </div>

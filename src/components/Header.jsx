@@ -1,7 +1,14 @@
 import React from "react";
 import logo from "../assets/logo.jpg";
+import { useContext } from "react";
+import CartContext from "../context/CartContext";
 
 const Header = () => {
+  const cartCtx = useContext(CartContext);
+
+  const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
+    return totalNumberOfItems + item.quantity;
+  }, 0);
   return (
     <header>
       <div className="flex items-center justify-around gap-96 mt-8">
@@ -15,7 +22,7 @@ const Header = () => {
         </div>
         <div>
           <button className="text-xl font-medium text-amber-400">
-            Cart ()
+            Cart ({totalCartItems})
           </button>
         </div>
       </div>
