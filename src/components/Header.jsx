@@ -2,9 +2,15 @@ import React from "react";
 import logo from "../assets/logo.jpg";
 import { useContext } from "react";
 import CartContext from "../context/CartContext";
+import UserProgressContext from "../context/UserProgressContext";
 
 const Header = () => {
   const cartCtx = useContext(CartContext);
+  const userProgressCtx = useContext(UserProgressContext);
+
+  function handleShowCart() {
+    userProgressCtx.showCart();
+  }
 
   const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
     return totalNumberOfItems + item.quantity;
@@ -21,7 +27,10 @@ const Header = () => {
           <p className="text-2xl font-semibold text-amber-400">PULSEPLATES</p>
         </div>
         <div>
-          <button className="text-xl font-medium text-amber-400">
+          <button
+            onClick={handleShowCart}
+            className="text-xl font-medium text-amber-400"
+          >
             Cart ({totalCartItems})
           </button>
         </div>
