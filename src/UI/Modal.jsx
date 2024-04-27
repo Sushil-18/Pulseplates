@@ -15,10 +15,7 @@ const Modal = ({ children, open }) => {
     return () => modal.close();
   }, [open]);
   return createPortal(
-    <dialog
-      ref={dialog}
-      className={`min-w-[35vw] min-h-[25vh] border-0 rounded-xl`}
-    >
+    <dialog ref={dialog} className={`min-w-[35vw]  border-0 rounded-xl`}>
       {" "}
       {children}
     </dialog>,
