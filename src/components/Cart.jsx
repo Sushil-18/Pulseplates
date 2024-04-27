@@ -16,8 +16,15 @@ const Cart = () => {
   function handleHideCart() {
     userProgressCtx.hideCart();
   }
+
+  function handleGoToCheckout() {
+    userProgressCtx.showCheckOut();
+  }
   return (
-    <Modal open={userProgressCtx.progress === "cart"}>
+    <Modal
+      open={userProgressCtx.progress === "cart"}
+      onClose={userProgressCtx.progress === "cart" ? handleHideCart : null}
+    >
       <h2 className="font-semibold text-xl text-center">Your Cart</h2>
       {cartCtx.items.length > 0 ? (
         <>
@@ -42,10 +49,13 @@ const Cart = () => {
           Your cart is currently empty!!
         </p>
       )}
-      <p className="flex gap-6 justify-end mb-2 p-2">
+      <p className="flex gap-4 justify-end mb-2 p-2">
         <button onClick={handleHideCart}>Close</button>
         {cartCtx.items.length > 0 && (
-          <button className="border-0 rounded-md p-1.5 bg-yellow-500">
+          <button
+            className="border-0 rounded-md p-1.5 bg-yellow-500"
+            onClick={handleGoToCheckout}
+          >
             Go to Checkout
           </button>
         )}

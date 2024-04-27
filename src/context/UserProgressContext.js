@@ -5,8 +5,8 @@ const UserProgressContext = React.createContext({
   progress: "",
   showCart: () => {},
   hideCart: () => {},
-  showCheckout: () => {},
-  hideCheckout: () => {},
+  showCheckOut: () => {},
+  hideCheckOut: () => {},
 });
 
 export default UserProgressContext;
