@@ -12,6 +12,9 @@ const Checkout = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    const fd = new FormData(event.target);
+    const customerData = Object.fromEntries(fd.entries());
   }
   return (
     <Modal open={userProgressCtx.progress === "checkout"} onClose={handleClose}>
@@ -23,7 +26,7 @@ const Checkout = () => {
         <Input
           label="Full Name"
           type="text"
-          id="Full-Name"
+          id="name"
           placeholder="Full-Name"
         />
         <Input
