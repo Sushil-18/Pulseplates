@@ -2,9 +2,26 @@ import React, { useContext } from "react";
 import Modal from "../UI/Modal";
 import Input from "../UI/Input";
 import UserProgressContext from "../context/UserProgressContext";
+import useHttp from "../hooks/useHttp";
+import CartContext from "../context/CartContext";
+
+const requestConifg = {
+  method: "POST",
+  headers: {
+    "Content-Type": "applicaiton/json",
+  },
+};
 
 const Checkout = () => {
   const userProgressCtx = useContext(UserProgressContext);
+  const cartCtx = useContext(CartContext);
+
+  const {
+    Data,
+    isLoading: isSending,
+    error,
+    sendRequest,
+  } = useHttp("http://localhost:3000/orders", requestConifg);
 
   function handleClose() {
     userProgressCtx.hideCheckOut();
@@ -15,6 +32,34 @@ const Checkout = () => {
 
     const fd = new FormData(event.target);
     const customerData = Object.fromEntries(fd.entries());
+    const order = {
+      items: cartCtx.items,
+      customer: customerData,
+    };
+
+    sendRequest(
+      JSON.stringify({
+        order: {
+          items: cartCtx.items,
+          customer: customerData,
+        },
+      })
+    );
+    console.log(order);
+  }
+
+  let actions = (
+    <>
+      <button type="button" onClick={handleClose}>
+        {" "}
+        Close
+      </button>
+      <button className="border-0 bg-yellow-500 p-1 rounded-md">Submit</button>
+    </>
+  );
+
+  if (isSending) {
+    actions = <span>Sending order data...</span>;
   }
   return (
     <Modal open={userProgressCtx.progress === "checkout"} onClose={handleClose}>
@@ -50,15 +95,7 @@ const Checkout = () => {
           />
           <Input label="City" type="text" id="city" placeholder="City" />
         </div>
-        <div className="flex justify-end gap-4">
-          <button type="button" onClick={handleClose}>
-            {" "}
-            Close
-          </button>
-          <button className="border-0 bg-yellow-500 p-1 rounded-md">
-            Submit
-          </button>
-        </div>
+        <div className="flex justify-end gap-4">{actions}</div>
       </form>
     </Modal>
   );

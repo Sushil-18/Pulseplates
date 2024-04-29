@@ -2,13 +2,13 @@ import React from "react";
 import Mealitem from "./Mealitem";
 import useHttp from "../hooks/useHttp";
 import Error from "./Error";
-const congigObj = {};
+const configObj = {};
 const Meals = () => {
   const {
     Data: mealsData,
     isLoading,
     error,
-  } = useHttp("http://localhost:3000/meal", congigObj, []);
+  } = useHttp("http://localhost:3000/meals", configObj, []);
   if (isLoading) {
     return <p className="text-center mt-16">Fetching meals Data...</p>;
   }
