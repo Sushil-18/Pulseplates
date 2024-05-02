@@ -8,7 +8,7 @@ import CartContext from "../context/CartContext";
 const requestConifg = {
   method: "POST",
   headers: {
-    "Content-Type": "applicaiton/json",
+    "Content-Type": "application/json",
   },
 };
 
@@ -21,10 +21,17 @@ const Checkout = () => {
     isLoading: isSending,
     error,
     sendRequest,
+    clearData,
   } = useHttp("http://localhost:3000/orders", requestConifg);
 
   function handleClose() {
     userProgressCtx.hideCheckOut();
+  }
+
+  function handleFinish() {
+    userProgressCtx.hideCheckOut();
+    cartCtx.clearCart();
+    clearData();
   }
 
   function handleSubmit(event) {
@@ -32,10 +39,6 @@ const Checkout = () => {
 
     const fd = new FormData(event.target);
     const customerData = Object.fromEntries(fd.entries());
-    const order = {
-      items: cartCtx.items,
-      customer: customerData,
-    };
 
     sendRequest(
       JSON.stringify({
@@ -45,7 +48,6 @@ const Checkout = () => {
         },
       })
     );
-    console.log(order);
   }
 
   let actions = (
@@ -60,6 +62,30 @@ const Checkout = () => {
 
   if (isSending) {
     actions = <span>Sending order data...</span>;
+  }
+
+  if (Data && !error) {
+    return (
+      <Modal
+        open={userProgressCtx.progress === "checkout"}
+        onClose={handleFinish}
+      >
+        <div className="p-2">
+          <div className="flex flex-col items-center">
+            <p>Success</p>
+            <p>Your Order has been placed successfully!!</p>
+          </div>
+          <div className="flex flex-col items-center mt-2">
+            <button
+              className="bg-yellow-500 p-1 rounded-md"
+              onClick={handleFinish}
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      </Modal>
+    );
   }
   return (
     <Modal open={userProgressCtx.progress === "checkout"} onClose={handleClose}>
@@ -96,6 +122,9 @@ const Checkout = () => {
           <Input label="City" type="text" id="city" placeholder="City" />
         </div>
         <div className="flex justify-end gap-4">{actions}</div>
+        {error && (
+          <Error title="Failed to submit the order" message={message}></Error>
+        )}
       </form>
     </Modal>
   );

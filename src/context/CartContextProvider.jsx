@@ -19,10 +19,17 @@ const CartContextProvider = ({ children }) => {
     });
   }
 
+  function clearCart() {
+    dispatch({
+      type: "Clear-Cart",
+    });
+  }
+
   const cartContext = {
     items: state.items,
     addItem,
     removeItem,
+    clearCart,
   };
 
   return (
